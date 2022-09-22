@@ -12,7 +12,7 @@ import (
 	chantypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
 	"github.com/gogo/protobuf/proto"
-	icqtypes "github.com/ingenuity-build/quicksilver/x/interchainquery/types"
+	icqtypes "github.com/persistenceOne/persistence-sdk/x/interchainquery/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -397,7 +397,7 @@ type QueryProvider interface {
 	QueryDenomTrace(ctx context.Context, denom string) (*transfertypes.DenomTrace, error)
 	QueryDenomTraces(ctx context.Context, offset, limit uint64, height int64) ([]transfertypes.DenomTrace, error)
 
-	QueryIcqs(ctx context.Context, height uint64) ([]icqtypes.Query, error)
+	QueryIcqs(ctx context.Context, height uint64, chainID string) ([]icqtypes.Query, error)
 }
 
 type RelayPacket interface {

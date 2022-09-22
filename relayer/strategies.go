@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/relayer/v2/relayer/chains/cosmos"
 	"github.com/cosmos/relayer/v2/relayer/processor"
 	"github.com/cosmos/relayer/v2/relayer/provider"
-	icqtypes "github.com/ingenuity-build/quicksilver/x/interchainquery/types"
+	icqtypes "github.com/persistenceOne/persistence-sdk/x/interchainquery/types"
 	"go.uber.org/zap"
 )
 

@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"strings"
 	"time"
 
@@ -25,7 +26,7 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
 	tmclient "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
 	"github.com/cosmos/relayer/v2/relayer/provider"
-	icqtypes "github.com/ingenuity-build/quicksilver/x/interchainquery/types"
+	icqtypes "github.com/persistenceOne/persistence-sdk/x/interchainquery/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	"golang.org/x/sync/errgroup"
@@ -92,15 +93,16 @@ func (cc *CosmosProvider) QueryTxs(ctx context.Context, page, limit int, events 
 }
 
 // QueryInterqueries returns a list of all interquery requests
-func (cc *CosmosProvider) QueryIcqs(ctx context.Context, height uint64) ([]icqtypes.Query, error) {
+func (cc *CosmosProvider) QueryIcqs(ctx context.Context, height uint64, chainID string) ([]icqtypes.Query, error) {
 	qc := icqtypes.NewQuerySrvrClient(cc)
 	res, err := qc.Queries(ctx, &icqtypes.QueryRequestsRequest{
-		ChainId:    cc.Config.ChainID,
+		ChainId:    chainID,
 		Pagination: DefaultPageRequest(),
 	})
 	if err != nil {
 		return nil, err
 	}
+	cc.log.Info("Queries Response:", zap.String("QueryChainID", chainID), zap.String("Query Reponse:", res.String()))
 	return res.Queries, nil
 }
 

@@ -9,7 +9,7 @@ import (
 	chantypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
 	"github.com/cosmos/relayer/v2/relayer/provider"
-	icqtypes "github.com/ingenuity-build/quicksilver/x/interchainquery/types"
+	icqtypes "github.com/persistenceOne/persistence-sdk/x/interchainquery/types"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 )
@@ -259,7 +259,7 @@ func UnrelayedIcq(ctx context.Context, src, dst *Chain) ([]icqtypes.Query, error
 		// Query all queries for src chain
 		return retry.Do(func() error {
 			var err error
-			pendingIcqQueries, err = src.ChainProvider.QueryIcqs(egCtx, uint64(srch))
+			pendingIcqQueries, err = src.ChainProvider.QueryIcqs(egCtx, uint64(srch), dst.ChainID())
 			return err
 		}, retry.Context(ctx), RtyAtt, RtyDel, RtyErr, retry.OnRetry(func(n uint, err error) {
 			src.log.Debug(
